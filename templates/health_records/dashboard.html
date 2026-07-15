@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4">
+    Smart Health Dashboard
+</h1>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card p-3 mb-3">
+            <h4>Total Records</h4>
+            <h2>{{ total_records }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 mb-3">
+            <h4>Average Weight</h4>
+            <h2>{{ avg_weight }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 mb-3">
+            <h4>Average Glucose</h4>
+            <h2>{{ avg_glucose }}</h2>
+        </div>
+    </div>
+
+</div>
+
+{% if latest_record %}
+
+<div class="card mt-4 p-3">
+
+    <h3>Latest Record</h3>
+
+    <p><b>Age:</b> {{ latest_record.age }}</p>
+
+    <p><b>Weight:</b> {{ latest_record.weight }}</p>
+
+    <p><b>Blood Pressure:</b>
+       {{ latest_record.blood_pressure }}
+    </p>
+
+    <p><b>Glucose:</b>
+       {{ latest_record.glucose_level }}
+    </p>
+
+</div>
+<div class="row mt-5">
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h4>Weight Progress</h4>
+            <canvas id="weightChart"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h4>Glucose Trend</h4>
+            <canvas id="glucoseChart"></canvas>
+        </div>
+    </div>
+
+</div>
+<div class="row mt-4">
+
+    <div class="col-md-6">
+
+        <div class="card p-3">
+
+            <h4>AI Risk Distribution</h4>
+
+            <canvas id="riskChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="row mt-4">
+
+    <div class="col-md-12">
+
+        <div class="card p-3">
+
+            <h4>Monthly Records</h4>
+
+            <canvas id="monthlyChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endif %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const chartDates = JSON.parse('{{ dates|escapejs }}');
+    const chartWeights = JSON.parse('{{ weights|escapejs }}');
+    const chartGlucose = JSON.parse('{{ glucose|escapejs }}');
+    const riskLabels = JSON.parse('{{ risk_labels|escapejs }}');
+    const riskValues = JSON.parse('{{ risk_values|escapejs }}');
+
+    new Chart(document.getElementById('weightChart'), {
+        type: 'line',
+        data: {
+            labels: chartDates,
+            datasets: [{
+                label: 'Weight',
+                data: chartWeights,
+                borderWidth: 2,
+                tension: 0.3
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('glucoseChart'), {
+        type: 'bar',
+        data: {
+            labels: chartDates,
+            datasets: [{
+                label: 'Glucose',
+                data: chartGlucose,
+                borderWidth: 1
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('riskChart'), {
+        type: 'pie',
+        data: {
+            labels: riskLabels,
+            datasets: [{
+                data: riskValues
+            }]
+        }
+    });
+
+    const months = JSON.parse('{{ months|escapejs }}');
+const monthlyCounts = JSON.parse('{{ monthly_counts|escapejs }}');
+
+new Chart(document.getElementById('monthlyChart'), {
+
+    type: 'line',
+
+    data: {
+
+        labels: months,
+
+        datasets: [{
+
+            label: 'Records',
+
+            data: monthlyCounts,
+
+            borderWidth: 2,
+
+            tension: 0.3
+
+        }]
+
+    }
+
+});
+
+});
+
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Edit Record</h2>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Age</label>
+        <input
+            type="number"
+            name="age"
+            class="form-control"
+            value="{{ record.age }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Weight</label>
+        <input
+            type="number"
+            step="0.1"
+            name="weight"
+            class="form-control"
+            value="{{ record.weight }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Height</label>
+        <input
+            type="number"
+            step="0.1"
+            name="height"
+            class="form-control"
+            value="{{ record.height }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Blood Pressure</label>
+        <input
+            type="text"
+            name="blood_pressure"
+            class="form-control"
+            value="{{ record.blood_pressure }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Glucose Level</label>
+        <input
+            type="number"
+            step="0.1"
+            name="glucose_level"
+            class="form-control"
+            value="{{ record.glucose_level }}">
+    </div>
+
+    <button class="btn btn-success">
+        Update Record
+    </button>
+
+</form>
+
+{% endblock %}

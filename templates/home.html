@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="text-center">
+
+    <h1 class="display-4">Welcome to IntelliHealth AI</h1>
+
+    <p class="lead">
+        Your Smart Health Assistant
+    </p>
+
+    <button class="btn btn-primary btn-lg">
+        Get Started
+    </button>
+    <h4>
+        Welcome {{ request.user.username }}
+    </h4>
+
+</div>
+
+{% endblock %}
