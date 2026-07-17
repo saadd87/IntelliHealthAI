@@ -9,90 +9,116 @@
     <!-- Bootstrap CSS -->
      <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link
+    href="https://unpkg.com/aos@2.3.4/dist/aos.css"
+    rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
+<nav class="navbar navbar-expand-lg navbar-light custom-navbar sticky-top">
 
-            <a class="navbar-brand" href="/">IntelliHealth AI</a>
+<div class="container">
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<a class="navbar-brand fw-bold" href="/">
 
-            <div class="collapse navbar-collapse" id="navbarNav">
+<i class="bi bi-heart-pulse-fill text-primary"></i>
 
-                <ul class="navbar-nav ms-auto">
+IntelliHealth AI
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
+</a>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contact/">Contact</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link"
-                            href="/health/dashboard/">
+<button
+class="navbar-toggler"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#navbarNav">
 
-                                Dashboard
+<span class="navbar-toggler-icon"></span>
 
-                        </a>
-                    </li>
+</button>
 
-                    <li class="nav-item">
-                        <a class="nav-link">
-                             Hello, {{ user.username }}
-                        </a>
-                    </li>
+<div class="collapse navbar-collapse" id="navbarNav">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/health/add/">
-                            Add Record
-                        </a>
-                    </li>
+<ul class="navbar-nav mx-auto">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/health/my-records/">
-                            My Records
-                        </a>
-                    </li>
+<li class="nav-item">
+<a class="nav-link" href="/">Home</a>
+</li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/accounts/logout/">
-                            Logout
-                        </a>
-                    </li>
+<li class="nav-item">
+<a class="nav-link" href="/about/">About</a>
+</li>
 
-                    {% else %}
+<li class="nav-item">
+<a class="nav-link" href="/contact/">Contact</a>
+</li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/accounts/register/">
-                            Register
-                        </a>
-                    </li>
+{% if user.is_authenticated %}
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/accounts/login/">
-                            Login
-                        </a>
-                    </li>
+<li class="nav-item">
+<a class="nav-link" href="/health/dashboard/">Dashboard</a>
+</li>
 
-                    {% endif %}
+<li class="nav-item">
+<a class="nav-link" href="/health/my-records/">Records</a>
+</li>
 
-                </ul>
+{% endif %}
 
-            </div>
+</ul>
 
-        </div>
-    </nav>
+<div class="d-flex align-items-center">
+
+{% if user.is_authenticated %}
+
+<span class="me-3 fw-semibold">
+
+<i class="bi bi-person-circle"></i>
+
+{{ user.username }}
+
+</span>
+
+<a href="/accounts/logout/" class="btn btn-danger">
+
+Logout
+
+</a>
+
+{% else %}
+
+<a href="/accounts/login/" class="btn btn-outline-primary me-2">
+
+Login
+
+</a>
+
+<a href="/accounts/register/" class="btn btn-primary">
+
+Register
+
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+</nav>
     {% if messages %}
 
 <div class="container mt-3">
@@ -127,13 +153,80 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-    <footer class="bg-dark text-white text-center p-3 mt-5">
+<footer class="footer-section">
 
-    <p>
-        © 2026 IntelliHealth AI | Developed with Django
-    </p>
+    <div class="container">
 
-    </footer>
+        <div class="footer-top">
+
+            <div class="footer-left">
+
+                <h5>Follow Us</h5>
+
+            </div>
+
+            <div class="footer-right">
+
+                <a href="#"><i class="bi bi-facebook"></i></a>
+
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+
+                <a href="#"><i class="bi bi-github"></i></a>
+
+                <a href="#"><i class="bi bi-instagram"></i></a>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="footer-bottom">
+
+            <p>
+                📧 support@intellihealthai.com
+            </p>
+
+            <p>
+                © 2026 IntelliHealth AI. All Rights Reserved.
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+    <script>
+    AOS.init({
+        duration:1000,
+        once:true
+    });
+</script>
+
+<script>
+
+function togglePassword(){
+
+    const password=document.getElementById("password");
+
+    if(password.type==="password"){
+
+        password.type="text";
+
+    }else{
+
+        password.type="password";
+
+    }
+
+
+}
+
+
+</script>
 </body>
 </html>

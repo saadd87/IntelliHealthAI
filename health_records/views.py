@@ -239,6 +239,8 @@ def dashboard(request):
         record.created_at.strftime("%d-%m")
         for record in records
     ]
+    avg_weight = round(avg_weight, 1) if avg_weight else 0
+    avg_glucose = round(avg_glucose, 1) if avg_glucose else 0
 
     
 
@@ -268,6 +270,75 @@ def dashboard(request):
         months.append(item['month'])
         monthly_counts.append(item['total'])
 
+# AI Health Score Calculation
+
+
+    health_score = 100
+
+    if latest_record:
+
+    # Weight
+        if latest_record.weight > 90:
+            health_score -= 15
+
+        elif latest_record.weight > 75:
+            health_score -= 5
+
+    # Glucose
+    if latest_record.glucose_level > 140:
+        health_score -= 20
+
+    elif latest_record.glucose_level > 100:
+        health_score -= 10
+
+    # Blood Pressure
+    try:
+
+        bp = int(str(latest_record.blood_pressure).split('/')[0])
+
+        if bp > 140:
+            health_score -= 20
+
+        elif bp > 120:
+            health_score -= 10
+
+    except:
+        pass
+
+    if latest_record.risk == "HIGH RISK":
+        health_score -= 20
+
+    elif latest_record.risk == "MEDIUM RISK":
+        health_score -= 10
+
+    health_score = max(0, min(100, health_score))
+
+ # Weight Status
+    if latest_record.weight < 50:
+        weight_status = "Underweight"
+    elif latest_record.weight <= 90:
+        weight_status = "Normal"
+    else:
+        weight_status = "Overweight"
+
+# Glucose Status
+    if latest_record.glucose_level < 70:
+        glucose_status = "Low"
+    elif latest_record.glucose_level <= 140:
+        glucose_status = "Normal"
+    else:
+        glucose_status = "High"
+
+# Recommendation
+    if health_score >= 80:
+        recommendation = "Excellent health. Keep maintaining your healthy lifestyle."
+
+    elif health_score >= 60:
+        recommendation = "Good health. Exercise regularly and eat a balanced diet."
+
+    else:
+        recommendation = "Health risk detected. Please consult your doctor and improve your lifestyle."
+
     context = {
     'total_records': total_records,
     'avg_weight': avg_weight,
@@ -281,6 +352,10 @@ def dashboard(request):
     'risk_values': json.dumps(risk_values),
     'months': json.dumps(months),
     'monthly_counts': json.dumps(monthly_counts),
+    'health_score': health_score,
+    'weight_status': weight_status,
+    'glucose_status': glucose_status,
+    'recommendation': recommendation,
     }
 
     return render(

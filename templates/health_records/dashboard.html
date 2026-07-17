@@ -2,54 +2,363 @@
 
 {% block content %}
 
-<h1 class="mb-4">
-    Smart Health Dashboard
-</h1>
+<div class="mb-5" data-aos="fade-right">
 
-<div class="row">
+    <div class="mb-5">
 
-    <div class="col-md-4">
-        <div class="card p-3 mb-3">
-            <h4>Total Records</h4>
-            <h2>{{ total_records }}</h2>
+    <h1 id="greeting"></h1>
+
+    
+
+    <p class="text-secondary" id="currentDateTime"></p>
+
+</div>
+
+</div>
+
+
+<div class="row g-4">
+
+    <!-- Total Records -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="card dashboard-card card-primary p-4" data-aos="fade-up">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h6>Total Records</h6>
+
+                    <h2 class="counter" data-target="{{ total_records }}">0</h2>
+
+                </div>
+
+                <i class="bi bi-clipboard2-pulse-fill dashboard-icon"></i>
+
+            </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-4">
-        <div class="card p-3 mb-3">
-            <h4>Average Weight</h4>
-            <h2>{{ avg_weight }}</h2>
+    <!-- Average Weight -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="card dashboard-card card-success p-4" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h6>Average Weight</h6>
+
+                    <h2>
+                        <span class="counter" data-target="{{ avg_weight|floatformat:1 }}">0</span> kg
+                    </h2>
+
+                </div>
+
+                <i class="bi bi-speedometer2 dashboard-icon"></i>
+
+            </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-4">
-        <div class="card p-3 mb-3">
-            <h4>Average Glucose</h4>
-            <h2>{{ avg_glucose }}</h2>
+    <!-- Average Glucose -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="card dashboard-card card-warning p-4" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h6>Average Glucose</h6>
+
+                    <h2 class="counter" data-target="{{ avg_glucose|floatformat:1 }}">0</h2>
+
+                </div>
+
+                <i class="bi bi-heart-pulse-fill dashboard-icon"></i>
+
+            </div>
+
         </div>
+
+    </div>
+
+    <!-- AI -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="card dashboard-card card-danger p-4" data-aos="fade-up" data-aos-delay="300">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h6>AI Status</h6>
+
+                    <h2>Active</h2>
+
+                </div>
+
+                <i class="bi bi-robot dashboard-icon"></i>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
 
+<div class="row mt-5" data-aos="fade-up">
+
+    <div class="col-12">
+
+        <div class="card p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h3>
+                    <i class="bi bi-lightning-charge-fill text-warning"></i>
+                    Quick Actions
+                </h3>
+
+            </div>
+
+            <div class="row g-3">
+
+                <div class="col-lg-3 col-md-6">
+
+                    <a href="/health/add/" class="btn btn-primary w-100 py-3">
+
+                        <i class="bi bi-plus-circle-fill fs-4 d-block mb-2"></i>
+
+                        Add Health Record
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <a href="/health/my-records/" class="btn btn-success w-100 py-3">
+
+                        <i class="bi bi-clipboard2-pulse-fill fs-4 d-block mb-2"></i>
+
+                        My Records
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <a href="/api/docs/" class="btn btn-warning w-100 py-3">
+
+                        <i class="bi bi-robot fs-4 d-block mb-2"></i>
+
+                        API Docs
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <button class="btn btn-dark w-100 py-3" id="darkModeBtn">
+
+                        <i class="bi bi-moon-stars-fill fs-4 d-block mb-2"></i>
+
+                        Dark Mode
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 {% if latest_record %}
 
-<div class="card mt-4 p-3">
+<div class="card mt-5 p-4 latest-card" data-aos="fade-up">
 
-    <h3>Latest Record</h3>
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <p><b>Age:</b> {{ latest_record.age }}</p>
+        <h3>
+            <i class="bi bi-heart-pulse-fill text-danger"></i>
+            Health Record
+        </h3>
 
-    <p><b>Weight:</b> {{ latest_record.weight }}</p>
+        <span class="badge bg-success fs-6">
+            Latest
+        </span>
 
-    <p><b>Blood Pressure:</b>
-       {{ latest_record.blood_pressure }}
-    </p>
+    </div>
 
-    <p><b>Glucose:</b>
-       {{ latest_record.glucose_level }}
-    </p>
+    <div class="row">
+
+        <div class="col-md-3 mb-3">
+
+            <div class="info-box">
+
+                <i class="bi bi-person-fill"></i>
+
+                <h6>Age</h6>
+
+                <h4>{{ latest_record.age }}</h4>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="info-box">
+
+                <i class="bi bi-speedometer2"></i>
+
+                <h6>Weight</h6>
+
+                <h4>{{ latest_record.weight }} kg</h4>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="info-box">
+
+                <i class="bi bi-heart-fill"></i>
+
+                <h6>Blood Pressure</h6>
+
+                <h4>{{ latest_record.blood_pressure }}</h4>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="info-box">
+
+                <i class="bi bi-droplet-fill"></i>
+
+                <h6>Glucose</h6>
+
+                <h4>{{ latest_record.glucose_level }}</h4>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
+
+<div class="card ai-summary-card p-4 mb-5" data-aos="fade-up">
+
+    <div class="d-flex align-items-center mb-3">
+
+        <i class="bi bi-robot fs-1 text-primary me-3"></i>
+
+        <div>
+            <h3 class="mb-1">AI Health Summary</h3>
+            <p class="text-muted mb-0">
+                Based on your latest health record
+            </p>
+        </div>
+
+    </div>
+
+    <div class="row mt-3">
+
+        <div class="col-md-3 mb-3">
+
+            <div class="summary-box">
+
+                <h6>Health Score</h6>
+
+                <div class="health-score">
+
+    <div class="outer">
+
+        <div class="inner">
+
+            <h2 id="scoreValue">{{ health_score }}%</h2>
+
+        </div>
+
+    </div>
+
+    <svg xmlns="http://www.w3.org/2000/svg">
+
+        <circle cx="60" cy="60" r="52"></circle>
+
+        <circle cx="60" cy="60" r="52" id="progressCircle"></circle>
+
+    </svg>
+
+</div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="summary-box">
+
+                <h6>Weight</h6>
+
+                <small>{{ weight_status }}</small>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="summary-box">
+
+                <h6>Glucose</h6>
+
+                <small>{{ glucose_status }}</small>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="summary-box">
+
+                <h6>Recommendation</h6>
+
+                <small>{{ recommendation }}</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 <div class="row mt-5">
 
     <div class="col-md-6">
@@ -172,7 +481,174 @@ new Chart(document.getElementById('monthlyChart'), {
 
 });
 
+const counters = document.querySelectorAll('.counter');
 
+counters.forEach(counter => {
+
+    const target = Number(counter.dataset.target);
+
+    let count = 0;
+
+    const speed = target / 80;
+
+    function updateCounter(){
+
+        if(count < target){
+
+            count += speed;
+
+            if(Number.isInteger(target)){
+                counter.innerText = Math.ceil(count);
+            }
+            else{
+                counter.innerText = count.toFixed(1);
+            }
+
+            requestAnimationFrame(updateCounter);
+
+        }else{
+
+            if(Number.isInteger(target)){
+                counter.innerText = target;
+            }else{
+                counter.innerText = target.toFixed(1);
+            }
+
+        }
+
+    }
+
+    updateCounter();
+
+});
+
+function updateGreeting(){
+
+    const greeting=document.getElementById("greeting");
+
+    const dateTime=document.getElementById("currentDateTime");
+
+    const now=new Date();
+
+    const hour=now.getHours();
+
+    let message="";
+
+    let icon="";
+
+    if(hour<12){
+
+        message="Good Morning";
+
+        
+
+    }
+
+    else if(hour<17){
+
+        message="Good Afternoon";
+
+        
+
+    }
+
+    else{
+
+        message="Good Evening";
+
+        
+
+    }
+
+    greeting.innerHTML=`${icon} ${message}, {{ user.username }}`;
+
+    dateTime.innerHTML=now.toLocaleString('en-US',{
+
+        weekday:'long',
+
+        year:'numeric',
+
+        month:'long',
+
+        day:'numeric',
+
+        hour:'numeric',
+
+        minute:'2-digit'
+
+    });
+
+}
+
+updateGreeting();
+
+setInterval(updateGreeting,60000);
+
+const darkBtn = document.getElementById("darkModeBtn");
+
+// Page load par saved theme apply karo
+if(localStorage.getItem("theme")==="dark"){
+    document.body.classList.add("dark-mode");
+    darkBtn.innerHTML='<i class="bi bi-sun-fill fs-4 d-block mb-2"></i> Light Mode';
+}
+
+darkBtn.addEventListener("click",function(){
+
+    document.body.classList.toggle("dark-mode");
+
+    if(document.body.classList.contains("dark-mode")){
+
+        localStorage.setItem("theme","dark");
+
+        darkBtn.innerHTML='<i class="bi bi-sun-fill fs-4 d-block mb-2"></i> Light Mode';
+
+    }else{
+
+        localStorage.setItem("theme","light");
+
+        darkBtn.innerHTML='<i class="bi bi-moon-stars-fill fs-4 d-block mb-2"></i> Dark Mode';
+
+    }
+
+});
+
+const score = Number("{{ health_score }}");;
+
+const circle = document.getElementById("progressCircle");
+
+const radius = 52;
+
+const circumference = 2 * Math.PI * radius;
+
+circle.style.strokeDasharray = circumference;
+
+circle.style.strokeDashoffset = circumference;
+
+function animateCircle(){
+
+    let progress = 0;
+
+    const interval = setInterval(()=>{
+
+        if(progress>=score){
+
+            clearInterval(interval);
+
+        }
+
+        const offset = circumference - (progress/100)*circumference;
+
+        circle.style.strokeDashoffset = offset;
+
+        document.getElementById("scoreValue").innerHTML = progress+"%";
+
+        progress++;
+
+    },15);
+
+}
+
+animateCircle();
 
 </script>
 

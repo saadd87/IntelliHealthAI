@@ -2,43 +2,95 @@
 
 {% block content %}
 
-<h2>Login</h2>
+<div class="auth-container">
 
-<form method="POST">
+    <div class="auth-card">
 
-    {% csrf_token %}
+        <h2>Welcome</h2>
 
-    <div class="mb-3">
+        <p class="text-muted mb-4">
+            Login to continue using IntelliHealth AI
+        </p>
 
-        <label>Username</label>
+        {% if messages %}
 
-        <input
-            type="text"
-            name="username"
-            class="form-control"
-        >
+{% for message in messages %}
 
-    </div>
+<div class="alert alert-danger">
 
-    <div class="mb-3">
+    {{ message }}
 
-        <label>Password</label>
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="mb-3">
+
+                <label class="form-label">Username</label>
+
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Enter your username"
+                    required
+                >
+
+            </div>
+
+            <div class="mb-4">
+
+    <label class="form-label">Password</label>
+
+    <div class="password-wrapper">
 
         <input
             type="password"
             name="password"
+            id="password"
             class="form-control"
+            placeholder="Enter your password"
+            required
         >
+
+         <span class="toggle-password" onclick="togglePassword()">
+            <i class="bi bi-eye-fill"></i>
+        </span>
 
     </div>
 
-    <button
-        type="submit"
-        class="btn btn-success"
-    >
-        Login
-    </button>
+</div>
 
-</form>
+            <button
+                type="submit"
+                class="btn btn-primary w-100 auth-btn">
+
+                Login
+
+            </button>
+
+        </form>
+
+        <div class="auth-footer">
+
+            Don't have an account?
+
+            <a href="/accounts/register/">
+
+                Register
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

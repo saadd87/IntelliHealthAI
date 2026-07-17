@@ -1,22 +1,757 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-<div class="text-center">
+<!-- Hero Section -->
 
-    <h1 class="display-4">Welcome to IntelliHealth AI</h1>
+<section class="hero-section">
 
-    <p class="lead">
-        Your Smart Health Assistant
-    </p>
+<div class="container">
 
-    <button class="btn btn-primary btn-lg">
-        Get Started
-    </button>
-    <h4>
-        Welcome {{ request.user.username }}
-    </h4>
+<div class="row align-items-center">
+
+<div class="col-lg-6">
+
+<span class="hero-badge">
+
+<i class="bi bi-stars"></i>
+
+AI Powered Healthcare Platform
+
+</span>
+
+<h1 class="mt-3">
+
+Transform Your
+
+<span class="text-primary">
+
+Health Journey
+
+</span>
+
+with AI
+
+</h1>
+
+<p class="mt-4">
+
+IntelliHealth AI helps you manage your health records,
+predict disease risks, monitor your progress and receive
+personalized AI-powered health recommendations.
+
+</p>
+
+<div class="mt-4">
+
+<a href="/accounts/register/" class="btn btn-primary btn-lg me-3">
+
+Get Started
+
+</a>
+
+<a href="/about/" class="btn btn-outline-primary btn-lg">
+
+Learn More
+
+</a>
 
 </div>
+
+<div class="hero-stats mt-5">
+
+<div>
+
+<h3>95%</h3>
+
+<span>AI Accuracy</span>
+
+</div>
+
+<div>
+
+<h3>500+</h3>
+
+<span>Health Records</span>
+
+</div>
+
+<div>
+
+<h3>24/7</h3>
+
+<span>Secure Access</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6 text-center">
+
+<img src="{% static 'images/hero-doctor.png' %}"
+
+class="img-fluid hero-image"
+
+alt="AI Healthcare">
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Statistics -->
+
+<section class="stats-section">
+
+<div class="container">
+
+<div class="row text-center">
+
+<div class="col-md-3">
+
+<div class="stat-card">
+
+<h2>{{ total_users|default:"100+" }}</h2>
+
+<p>Users</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="stat-card">
+
+<h2>{{ total_records|default:"500+" }}</h2>
+
+<p>Health Records</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="stat-card">
+
+<h2>95%</h2>
+
+<p>Prediction Accuracy</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="stat-card">
+
+<h2>24/7</h2>
+
+<p>Secure Platform</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features-section py-5">
+
+<div class="container">
+
+<div class="text-center mb-5">
+
+<span class="section-tag">Why Choose Us</span>
+
+<h2 class="fw-bold mt-2">
+Smart Healthcare Powered by Artificial Intelligence
+</h2>
+
+<p class="text-muted">
+Everything you need to monitor, predict and improve your health.
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="bi bi-robot"></i>
+</div>
+
+<h4>AI Health Prediction</h4>
+
+<p>
+Predict disease risks using Machine Learning based on your health records.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="bi bi-heart-pulse-fill"></i>
+</div>
+
+<h4>Health Monitoring</h4>
+
+<p>
+Track weight, glucose, blood pressure and overall health progress.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="bi bi-file-earmark-medical-fill"></i>
+</div>
+
+<h4>Medical Records</h4>
+
+<p>
+Store all your medical records securely in one place.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="bi bi-graph-up-arrow"></i>
+</div>
+
+<h4>Interactive Dashboard</h4>
+
+<p>
+Visual charts and analytics help you understand your health trends.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="bi bi-shield-lock-fill"></i>
+</div>
+
+<h4>Secure Data</h4>
+
+<p>
+Your medical information is protected using secure authentication.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="bi bi-lightbulb-fill"></i>
+</div>
+
+<h4>Smart Recommendations</h4>
+
+<p>
+Receive personalized AI suggestions to maintain a healthier lifestyle.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="how-section py-5">
+
+<div class="container">
+
+<div class="text-center mb-5">
+
+<span class="section-tag">How It Works</span>
+
+<h2 class="fw-bold mt-3">
+Get Started in Just 4 Easy Steps
+</h2>
+
+<p class="text-muted">
+Manage your health effortlessly with our AI-powered platform.
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-3 col-md-6">
+
+<div class="step-card">
+
+<div class="step-number">1</div>
+
+<i class="bi bi-person-plus-fill step-icon"></i>
+
+<h4>Create Account</h4>
+
+<p>
+Register securely and create your personal health profile.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-3 col-md-6">
+
+<div class="step-card">
+
+<div class="step-number">2</div>
+
+<i class="bi bi-clipboard2-pulse-fill step-icon"></i>
+
+<h4>Add Health Record</h4>
+
+<p>
+Enter your weight, blood pressure, glucose and other details.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-3 col-md-6">
+
+<div class="step-card">
+
+<div class="step-number">3</div>
+
+<i class="bi bi-cpu-fill step-icon"></i>
+
+<h4>AI Analysis</h4>
+
+<p>
+Machine Learning predicts your health risk instantly.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-3 col-md-6">
+
+<div class="step-card">
+
+<div class="step-number">4</div>
+
+<i class="bi bi-bar-chart-fill step-icon"></i>
+
+<h4>Track Progress</h4>
+
+<p>
+View charts, reports and AI recommendations anytime.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= AI SHOWCASE ================= -->
+
+<section class="ai-section py-5">
+
+<div class="container">
+
+<div class="row align-items-center">
+
+<div class="col-lg-6">
+
+<span class="section-tag">
+Artificial Intelligence
+</span>
+
+<h2 class="fw-bold mt-3">
+Your Personal AI Health Assistant
+</h2>
+
+<p class="text-muted mt-3">
+
+Our Machine Learning engine analyzes your health records
+to predict health risks, monitor your progress and provide
+personalized recommendations.
+
+</p>
+
+<div class="mt-4">
+
+<div class="ai-feature">
+
+<i class="bi bi-check-circle-fill"></i>
+
+<span>AI Disease Risk Prediction</span>
+
+</div>
+
+<div class="ai-feature">
+
+<i class="bi bi-check-circle-fill"></i>
+
+<span>Smart Health Dashboard</span>
+
+</div>
+
+<div class="ai-feature">
+
+<i class="bi bi-check-circle-fill"></i>
+
+<span>Personalized Recommendations</span>
+
+</div>
+
+<div class="ai-feature">
+
+<i class="bi bi-check-circle-fill"></i>
+
+<span>Secure Medical Records</span>
+
+</div>
+
+</div>
+
+<a href="/accounts/register/" class="btn btn-primary btn-lg mt-4">
+
+Start Your Journey
+
+</a>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="ai-preview">
+
+<div class="prediction-card">
+
+<h5>AI Prediction</h5>
+
+<h2 class="text-success">LOW RISK</h2>
+
+<p>Confidence Score</p>
+
+<div class="progress">
+
+<div class="progress-bar bg-success"
+
+style="width:95%">
+
+95%
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-card-small">
+
+<h5>Health Score</h5>
+
+<h1>92%</h1>
+
+<p class="text-success">
+
+Excellent Health
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+
+<section class="testimonial-section py-5">
+
+<div class="container">
+
+<div class="text-center mb-5">
+
+<span class="section-tag">Testimonials</span>
+
+<h2 class="fw-bold mt-3">
+What Our Users Say
+</h2>
+
+<p class="text-muted">
+Thousands of users trust IntelliHealth AI to manage their health.
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-4">
+
+<div class="testimonial-card">
+
+<div class="stars">
+★★★★★
+</div>
+
+<p>
+
+"IntelliHealth AI helped me monitor my blood pressure and
+understand my health reports more easily."
+
+</p>
+
+<div class="d-flex align-items-center mt-4">
+
+<img src="https://i.pravatar.cc/80?img=12"
+class="testimonial-img">
+
+<div class="ms-3">
+
+<h5>Ahmed Khan</h5>
+
+<span>Patient</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="testimonial-card">
+
+<div class="stars">
+★★★★★
+</div>
+
+<p>
+
+"The dashboard is beautiful and the AI recommendations
+are very useful for daily health monitoring."
+
+</p>
+
+<div class="d-flex align-items-center mt-4">
+
+<img src="https://i.pravatar.cc/80?img=32"
+class="testimonial-img">
+
+<div class="ms-3">
+
+<h5>Fatima Ali</h5>
+
+<span>User</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="testimonial-card">
+
+<div class="stars">
+★★★★★
+</div>
+
+<p>
+
+"A professional healthcare platform with excellent design
+and intelligent health insights."
+
+</p>
+
+<div class="d-flex align-items-center mt-4">
+
+<img src="https://i.pravatar.cc/80?img=22"
+class="testimonial-img">
+
+<div class="ms-3">
+
+<h5>Dr. Hassan</h5>
+
+<span>Medical Consultant</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= FAQ ================= -->
+
+<section class="faq-section py-5">
+
+<div class="container">
+
+<div class="text-center mb-5">
+
+<span class="section-tag">FAQ</span>
+
+<h2 class="fw-bold mt-3">
+Frequently Asked Questions
+</h2>
+
+<p class="text-muted">
+Everything you need to know about IntelliHealth AI.
+</p>
+
+</div>
+
+<div class="accordion" id="faqAccordion">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#faq1">
+
+What is IntelliHealth AI?
+
+</button>
+
+</h2>
+
+<div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+IntelliHealth AI is an AI-powered healthcare platform that helps monitor health records, predict disease risks, and provide personalized recommendations.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq2">
+
+Is my health data secure?
+
+</button>
+
+</h2>
+
+<div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Yes. Your data is securely stored and accessible only through your authenticated account.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq3">
+
+How does AI prediction work?
+
+</button>
+
+</h2>
+
+<div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Our Machine Learning model analyzes your health information and estimates your health risk level based on available data.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
 
 {% endblock %}
