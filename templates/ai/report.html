@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+
+<h2 class="mb-4">
+
+AI Health Report
+
+</h2>
+
+<div class="card shadow-lg mb-4">
+    <div class="card-body text-center">
+
+        <h4>Health Score</h4>
+
+        <h1 class="display-3">
+            {{ health_score }}/100
+        </h1>
+
+        <div class="progress mt-3" style="height:20px;">
+ <div class="progress-bar bg-success"
+     id="healthBar"
+     data-score="{{ health_score }}"
+     role="progressbar"
+     aria-valuemin="0"
+     aria-valuemax="100">
+
+    {{ health_score }}/100
+
+</div>
+</div>
+
+    </div>
+</div>
+
+
+<div class="card shadow h-100">
+
+    <div class="card-body">
+
+        <h5>⚠ Risk Assessment</h5>
+
+        {% if report.risk == "Low" %}
+
+            <span class="badge bg-success fs-6">
+                LOW RISK
+            </span>
+
+        {% elif report.risk == "Moderate" %}
+
+            <span class="badge bg-warning text-dark fs-6">
+                MODERATE RISK
+            </span>
+
+        {% else %}
+
+            <span class="badge bg-danger fs-6">
+                HIGH RISK
+            </span>
+
+        {% endif %}
+
+        <p class="mt-3">
+
+            {{ report.risk }}
+
+        </p>
+
+    </div>
+
+</div>
+<div class="col-md-6 mb-4">
+
+<div class="card shadow h-100">
+
+<div class="card-body">
+
+<h5>🥗 Diet</h5>
+
+<p>{{ report.diet }}</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card shadow h-100">
+
+<div class="card-body">
+
+<h5>🏃 Exercise</h5>
+
+<p>{{ report.exercise }}</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card shadow h-100">
+
+<div class="card-body">
+
+<h5>😴 Sleep</h5>
+
+<p>{{ report.sleep }}</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card shadow h-100">
+
+<div class="card-body">
+
+<h5>💧 Hydration</h5>
+
+<p>{{ report.hydration }}</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card shadow h-100">
+
+<div class="card-body">
+
+<h5>📅 Follow-up</h5>
+
+<p>{{ report.followup }}</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card shadow h-100 border-danger">
+
+<div class="card-body">
+
+<h5>⚠ Disclaimer</h5>
+
+<p>{{ report.disclaimer }}</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const bar = document.getElementById("healthBar");
+    const score = parseInt(bar.dataset.score) || 0;
+    bar.style.width = score + "%";
+    bar.setAttribute("aria-valuenow", score);
+});
+</script>
+
+{% endblock %}
+

@@ -21,8 +21,17 @@ from reportlab.lib import colors
 from openpyxl import Workbook
 from django.core.mail import send_mail
 from django.conf import settings
+from .utils import calculate_health_score
 
+from ai.openrouter import ask_ai
+from django.http import HttpResponse
 
+def test_ai(request):
+    try:
+        answer = ask_ai("Hello! Introduce yourself in one sentence.")
+        return HttpResponse(answer)
+    except Exception as e:
+        return HttpResponse(f"Error: {e}")
 
 model_path = os.path.join(
     settings.BASE_DIR,
@@ -30,8 +39,134 @@ model_path = os.path.join(
     'health_model.pkl'
 )
 
+from django.shortcuts import render
+from ai.openrouter import ask_ai
+from .models import HealthRecord
+
+
+def ai_chat(request):
+
+    answer = None
+
+    if request.method == "POST":
+
+        prompt = request.POST.get("prompt")
+
+        latest = HealthRecord.objects.filter(
+            user=request.user
+        ).order_by("-id").first()
+
+        if latest:
+
+            full_prompt = f"""
+You are IntelliHealth AI.
+
+User's latest health record:
+
+Age: {latest.age}
+Height: {latest.height} cm
+Weight: {latest.weight} kg
+Blood Pressure: {latest.blood_pressure}
+Glucose: {latest.glucose_level}
+Predicted Risk: {latest.risk}
+
+User Question:
+{prompt}
+
+Give a professional, easy-to-understand health recommendation.
+Mention healthy lifestyle suggestions.
+Do not prescribe medicines.
+Advise consulting a doctor for serious concerns.
+"""
+
+        else:
+
+            full_prompt = prompt
+
+        answer = ask_ai(full_prompt)
+
+    return render(
+        request,
+        "ai/chat.html",
+        {
+            "answer": answer
+        }
+    )
+
 model = joblib.load(model_path)
 
+from .models import HealthRecord
+from ai.openrouter import ask_ai
+
+def ai_report(request):
+
+    latest = HealthRecord.objects.filter(
+        user=request.user
+    ).order_by("-id").first()
+
+    if not latest:
+
+        return render(
+            request,
+            "ai/report.html",
+            {
+                "report":"No health records found."
+            }
+        )
+
+    prompt = f"""
+You are IntelliHealth AI.
+
+Generate a professional health report.
+
+Patient Information
+
+Age: {latest.age}
+
+Height: {latest.height} cm
+
+Weight: {latest.weight} kg
+
+Blood Pressure: {latest.blood_pressure}
+
+Glucose: {latest.glucose_level}
+
+Predicted Risk: {latest.risk}
+
+Generate the report in this format:
+
+# Overall Health Summary
+
+# Risk Assessment
+
+# Diet Recommendations
+
+# Exercise Plan
+
+# Lifestyle Improvements
+
+# Sleep Recommendations
+
+# Hydration Advice
+
+# Follow-up Suggestions
+
+# Medical Disclaimer
+
+Keep the report simple, professional and easy to understand.
+
+Do not prescribe medicines.
+"""
+
+    report = ask_ai(prompt)
+
+    return render(
+        request,
+        "ai/report.html",
+        {
+            "report": report
+        }
+    )
 
 @login_required
 def add_record(request):
@@ -270,48 +405,10 @@ def dashboard(request):
         months.append(item['month'])
         monthly_counts.append(item['total'])
 
-# AI Health Score Calculation
-
-
-    health_score = 100
-
     if latest_record:
-
-    # Weight
-        if latest_record.weight > 90:
-            health_score -= 15
-
-        elif latest_record.weight > 75:
-            health_score -= 5
-
-    # Glucose
-    if latest_record.glucose_level > 140:
-        health_score -= 20
-
-    elif latest_record.glucose_level > 100:
-        health_score -= 10
-
-    # Blood Pressure
-    try:
-
-        bp = int(str(latest_record.blood_pressure).split('/')[0])
-
-        if bp > 140:
-            health_score -= 20
-
-        elif bp > 120:
-            health_score -= 10
-
-    except:
-        pass
-
-    if latest_record.risk == "HIGH RISK":
-        health_score -= 20
-
-    elif latest_record.risk == "MEDIUM RISK":
-        health_score -= 10
-
-    health_score = max(0, min(100, health_score))
+        health_score = calculate_health_score(latest_record)
+    else:
+        health_score = 0
 
  # Weight Status
     if latest_record.weight < 50:
@@ -476,3 +573,91 @@ IntelliHealth AI Team
     )
 
     return redirect('/health/dashboard/')
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def ai_report(request):
+
+    latest = HealthRecord.objects.filter(
+        user=request.user
+    ).order_by("-id").first()
+
+    if not latest:
+        return render(
+            request,
+            "ai/report.html",
+            {
+                "report": {
+                    "summary": "No health records found.",
+                    "risk": "-",
+                    "diet": "-",
+                    "exercise": "-",
+                    "sleep": "-",
+                    "hydration": "-",
+                    "followup": "-",
+                    "disclaimer": "-"
+                },
+                "health_score": 0
+            }
+        )
+
+    score = calculate_health_score(latest)
+
+    # ==========================
+    # AI Prompt
+    # ==========================
+
+    prompt = f"""
+You are IntelliHealth AI.
+
+Patient Information
+
+Age: {latest.age}
+Height: {latest.height} cm
+Weight: {latest.weight} kg
+Blood Pressure: {latest.blood_pressure}
+Glucose: {latest.glucose_level}
+Predicted Risk: {latest.risk}
+
+Health Score: {score}/100
+
+Generate ONLY valid JSON in this format:
+
+{{
+"summary":"",
+"risk":"Low",
+"diet":"",
+"exercise":"",
+"sleep":"",
+"hydration":"",
+"followup":"",
+"disclaimer":""
+}}
+
+Rules:
+
+- Risk should be one of:
+Low
+Moderate
+High
+
+- Return ONLY JSON.
+
+Do not use markdown.
+
+Do not explain anything.
+
+Return only JSON.
+"""
+
+    report = ask_ai(prompt)
+
+    return render(
+        request,
+        "ai/report.html",
+        {
+            "report": report,
+            "health_score": score
+        }
+)

@@ -48,5 +48,19 @@ urlpatterns = [
     views.send_health_report,
     name='send_health_report'
     ),
+    path("test-ai/", views.test_ai, name="test_ai"),
+
+    path(
+    "ai-chat/",
+    views.ai_chat,
+    name="ai_chat"
+    ),
+
+    path(
+    "ai-report/",
+    views.ai_report,
+    name="ai_report"
+    ),
+
 
 ]

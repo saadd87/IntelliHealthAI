@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-success text-white">
+            <h3>🤖 IntelliHealth AI Assistant</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <textarea
+                    name="prompt"
+                    rows="5"
+                    class="form-control"
+                    placeholder="Ask your health-related question..."
+                    required
+                ></textarea>
+
+                <button class="btn btn-success mt-3">
+                    Ask AI
+                </button>
+
+            </form>
+
+            {% if answer %}
+
+            <hr>
+
+            <h5>AI Response</h5>
+
+            <div class="alert alert-light">
+
+                {{ answer }}
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
