@@ -2,47 +2,109 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
-    <div class="card shadow-lg">
+    <div class="row justify-content-center">
 
-        <div class="card-header bg-success text-white">
-            <h3>🤖 IntelliHealth AI Assistant</h3>
-        </div>
+        <div class="col-lg-9">
 
-        <div class="card-body">
+            <div class="card shadow-lg border-0 rounded-4">
 
-            <form method="POST">
+                <!-- Header -->
 
-                {% csrf_token %}
+                <div class="card-header bg-primary text-white py-4">
 
-                <textarea
-                    name="prompt"
-                    rows="5"
-                    class="form-control"
-                    placeholder="Ask your health-related question..."
-                    required
-                ></textarea>
+                    <h3 class="mb-1">
+                        🤖 IntelliHealth AI Assistant
+                    </h3>
 
-                <button class="btn btn-success mt-3">
-                    Ask AI
-                </button>
+                    <p class="mb-0">
+                        Ask health-related questions and receive AI-powered personalized guidance.
+                    </p>
 
-            </form>
+                </div>
 
-            {% if answer %}
+                <!-- Body -->
 
-            <hr>
+                <div class="card-body p-4">
 
-            <h5>AI Response</h5>
+                    <form method="POST">
 
-            <div class="alert alert-light">
+                        {% csrf_token %}
 
-                {{ answer }}
+                        <label class="form-label fw-semibold">
+                            Your Question
+                        </label>
+
+                        <textarea
+                            name="prompt"
+                            rows="5"
+                            class="form-control rounded-3"
+                            placeholder="Example: How can I reduce my blood pressure naturally?"
+                            required></textarea>
+
+                        <button class="btn btn-primary btn-lg mt-4 w-100">
+
+                            🚀 Ask AI
+
+                        </button>
+
+                    </form>
+
+                    {% if answer %}
+
+                    <hr class="my-5">
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
+                             style="width:55px;height:55px;font-size:24px;">
+
+                            🤖
+
+                        </div>
+
+                        <div class="ms-3">
+
+                            <h5 class="mb-0">
+                                IntelliHealth AI
+                            </h5>
+
+                            <small class="text-muted">
+                                Personalized Health Recommendation
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="alert alert-light border rounded-4 shadow-sm p-4">
+
+                        <div style="white-space: pre-wrap; line-height:1.8;">
+
+                            {{ answer }}
+
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+                <!-- Footer -->
+
+                <div class="card-footer bg-light">
+
+                    <small class="text-muted">
+
+                        ⚠ AI recommendations are for informational purposes only and should not replace professional medical advice.
+
+                    </small>
+
+                </div>
 
             </div>
-
-            {% endif %}
 
         </div>
 

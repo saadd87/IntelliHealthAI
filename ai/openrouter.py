@@ -8,17 +8,68 @@ client = OpenAI(
     base_url="https://openrouter.ai/api/v1"
 )
 
-def ask_ai(prompt):
+MODEL = "deepseek/deepseek-chat-v3-0324"
 
-    response = client.chat.completions.create(
-        model="deepseek/deepseek-chat-v3-0324",
-        messages=[
-            {
-                "role": "system",
-                "content": """
+
+# ===========================================
+# AI CHAT (Returns Plain Text)
+# ===========================================
+
+def ask_chat(prompt):
+
+    try:
+
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {
+                    "role": "system",
+                    "content": """
 You are IntelliHealth AI.
 
-Always return ONLY valid JSON.
+You are a professional AI Health Assistant.
+
+Give clear, friendly and easy-to-understand health guidance.
+
+Never prescribe medicines.
+
+Recommend consulting a doctor for serious concerns.
+"""
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.5
+        )
+
+        return response.choices[0].message.content.strip()
+
+    except Exception as e:
+
+        print("OPENROUTER CHAT ERROR:", e)
+
+        return f"⚠ AI Error: {e}"
+
+
+# ===========================================
+# AI REPORT (Returns JSON)
+# ===========================================
+
+def ask_report(prompt):
+
+    try:
+
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {
+                    "role": "system",
+                    "content": """
+You are IntelliHealth AI.
+
+Return ONLY valid JSON.
 
 Format:
 
@@ -33,40 +84,42 @@ Format:
 "disclaimer":""
 }
 
-Do not return markdown.
-Do not return explanation.
-Only JSON.
+Do not use markdown.
+
+Do not explain anything.
+
+Only return JSON.
 """
-            },
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ],
-        temperature=0.3
-    )
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.3
+        )
 
-    content = response.choices[0].message.content.strip()
+        content = response.choices[0].message.content.strip()
 
-    print("\n========== AI RAW RESPONSE ==========\n")
-    print(content)
-    print("\n=====================================\n")
+        print("\n===== RAW AI REPORT =====\n")
+        print(content)
+        print("\n=========================\n")
 
-    # Remove markdown if present
-    content = re.sub(r"```json|```", "", content).strip()
+        content = re.sub(r"```json|```", "", content).strip()
 
-    try:
         return json.loads(content)
 
-    except Exception:
+    except Exception as e:
+
+        print("OPENROUTER REPORT ERROR:", e)
 
         return {
-            "summary": content,
-            "risk": "Unable to analyze.",
+            "summary": "Unable to generate AI report.",
+            "risk": "-",
             "diet": "-",
             "exercise": "-",
             "sleep": "-",
             "hydration": "-",
             "followup": "-",
-            "disclaimer": "AI response could not be structured properly."
+            "disclaimer": str(e)
         }

@@ -13,3 +13,11 @@ class HealthRecordForm(forms.ModelForm):
             'blood_pressure',
             'glucose_level'
         ]
+
+        widgets = {
+    'age': forms.NumberInput(attrs={'class':'form-control'}),
+    'height': forms.NumberInput(attrs={'class':'form-control'}),
+    'weight': forms.NumberInput(attrs={'class':'form-control'}),
+    'blood_pressure': forms.TextInput(attrs={'class':'form-control','placeholder':'120/80'}),
+    'glucose_level': forms.NumberInput(attrs={'class':'form-control'}),
+}

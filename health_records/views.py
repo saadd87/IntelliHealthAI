@@ -23,7 +23,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .utils import calculate_health_score
 
-from ai.openrouter import ask_ai
+from ai.openrouter import ask_chat, ask_report
 from django.http import HttpResponse
 
 def test_ai(request):
@@ -40,7 +40,6 @@ model_path = os.path.join(
 )
 
 from django.shortcuts import render
-from ai.openrouter import ask_ai
 from .models import HealthRecord
 
 
@@ -83,7 +82,7 @@ Advise consulting a doctor for serious concerns.
 
             full_prompt = prompt
 
-        answer = ask_ai(full_prompt)
+        answer = ask_chat(full_prompt)
 
     return render(
         request,
@@ -96,7 +95,6 @@ Advise consulting a doctor for serious concerns.
 model = joblib.load(model_path)
 
 from .models import HealthRecord
-from ai.openrouter import ask_ai
 
 def ai_report(request):
 
@@ -651,7 +649,7 @@ Do not explain anything.
 Return only JSON.
 """
 
-    report = ask_ai(prompt)
+    report = ask_report(prompt)
 
     return render(
         request,
